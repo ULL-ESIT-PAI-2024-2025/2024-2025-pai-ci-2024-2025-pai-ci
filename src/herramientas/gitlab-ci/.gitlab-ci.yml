@@ -1,0 +1,46 @@
+image: node:16
+
+stages:
+  - build
+  - test
+  - doc
+  - deploy
+
+build_job:
+  stage: build
+  script:
+    - echo "Instalando dependencias..."
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+
+test_job:
+  stage: test
+  script:
+    - echo "Ejecutando pruebas..."
+    - npm run test
+  dependencies:
+    - build_job
+
+doc_job:
+  stage: doc
+  script:
+    - echo "Generando documentación..."
+    - npm run docs
+  artifacts:
+    paths:
+      - src/public/docs
+
+
+pages:
+  stage: deploy
+  script:
+    - echo "Copiando archivos a carpeta 'public/'..."
+    - mkdir public
+    - cp -r src/* public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
