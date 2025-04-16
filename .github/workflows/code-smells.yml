@@ -31,5 +31,6 @@ jobs:
       - name: Upload Plato report
         uses: actions/upload-artifact@v4
         with:
-          name: plato-report
-          path: plato-report
+          # Poner el nombre del directorio donde se genera el informe de Plato
+          name: src/github-actions/code-smells
+          path: src/github-actions/code-smells
