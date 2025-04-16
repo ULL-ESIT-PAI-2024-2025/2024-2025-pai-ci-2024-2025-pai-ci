@@ -1,0 +1,74 @@
+// Inicio del pipeline declarativo
+pipeline {
+  
+  // Define el entorno de ejecución. 'any' significa cualquier agente disponible (máquina Jenkins)
+  agent any
+
+  // Variables de entorno que estarán disponibles durante el pipeline
+  environment {
+    NODE_ENV = 'production'         // Establece la variable NODE_ENV a 'production'
+  }
+
+  // Define los pasos agrupados en etapas (stages)
+  stages {
+
+    // Etapa de preparación: instalación de dependencias
+    stage('Install dependencies') {
+      steps {
+        echo 'Instalando dependencias del proyecto...'
+        sh 'npm ci'                 // Instala dependencias con npm de forma limpia (ideal en CI)
+      }
+    }
+
+    // Etapa de linting: revisión del código fuente
+    stage('Lint') {
+      steps {
+        echo 'Ejecutando linter para comprobar el estilo de código...'
+        sh 'npm run lint'           // Ejecuta el linter configurado en el proyecto (por ejemplo, ESLint)
+      }
+    }
+
+    // Etapa de pruebas
+    stage('Test') {
+      steps {
+        echo 'Ejecutando pruebas unitarias...'
+        sh 'npm test'               // Ejecuta las pruebas definidas en el proyecto (Jest, Mocha, etc.)
+      }
+    }
+
+    // Etapa de compilación TypeScript
+    stage('Build') {
+      steps {
+        echo 'Compilando el proyecto TypeScript...'
+        sh 'npm run build'          // Lanza el proceso de build (debe estar definido en package.json)
+      }
+    }
+
+    // Etapa de despliegue (opcional)
+    stage('Deploy') {
+      when {
+        branch 'main'              // Solo se despliega si se hace push a la rama 'main'
+      }
+      steps {
+        echo 'Desplegando la aplicación...'
+        // Aquí podrías poner scripts de despliegue a servidor, FTP, S3, etc.
+        sh './scripts/deploy.sh'   // Ejemplo: un script personalizado de despliegue
+      }
+    }
+
+  }
+
+  // Sección para ejecutar comandos sin importar si el pipeline ha fallado o no
+  post {
+    always {
+      echo 'Pipeline finalizado.'
+    }
+    success {
+      echo '✅ Todo correcto, build completado con éxito.'
+    }
+    failure {
+      echo '❌ Ha ocurrido un error en alguna de las etapas.'
+    }
+  }
+}
+
