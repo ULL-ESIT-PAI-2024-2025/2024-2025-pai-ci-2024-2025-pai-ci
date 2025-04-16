@@ -1,11 +1,15 @@
-image: node:16
+image: node:16 # Imagen de Node.js
 
+# Definición de los estados del pipeline
 stages:
   - build
   - test
   - doc
   - deploy
 
+# Definición de los trabajos del pipeline
+
+# Definición del trabajo de construcción
 build_job:
   stage: build
   script:
@@ -15,6 +19,7 @@ build_job:
     paths:
       - node_modules/
 
+# Definición del trabajo de prueba
 test_job:
   stage: test
   script:
@@ -23,6 +28,7 @@ test_job:
   dependencies:
     - build_job
 
+# Definición del trabajo de generación de documentación
 doc_job:
   stage: doc
   script:
@@ -30,15 +36,13 @@ doc_job:
     - npm run docs
   artifacts:
     paths:
-      - src/public/docs
+      - public/docs
 
-
+# Definición del trabajo de despliegue de la aplicación
 pages:
   stage: deploy
   script:
-    - echo "Copiando archivos a carpeta 'public/'..."
-    - mkdir public
-    - cp -r src/* public/
+    - echo "Desplegando la aplicaciónen gitlab-pages..."
   artifacts:
     paths:
       - public
