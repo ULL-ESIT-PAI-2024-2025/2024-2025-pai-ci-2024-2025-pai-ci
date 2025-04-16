@@ -1,0 +1,12 @@
+{
+  "name": "package-presentacion",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc",
+    "plato": "plato -r -d plato-report dist"
+  },
+  "devDependencies": {
+    "plato": "^1.7.0",
+    "typescript": "^5.0.0"
+  }
+}
