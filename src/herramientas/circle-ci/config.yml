@@ -1,0 +1,57 @@
+version: 2.1
+
+# Usamos el orb Node.js ("paquete" de configuración de CI/CD)
+orbs:
+  node: circleci/node@5
+
+# Definición un trabajo que se va a encargar de ejecutar los tests
+jobs:
+  execute-tests:
+    # Entorno de ejecución por defecto
+    executor: node/default
+    # Carpeta donde se guardarán los resultados de tests para mostrar por CircleCI
+    environment:
+      JEST_JUNIT_OUTPUT_DIR: ./test-results/  
+    steps:
+      # Clona el repositorio para poder trabajar con él
+      - checkout
+      # run ejecuta los comandos en el contenedor de CI
+      - run:
+          name: Instalar dependencias
+          command: |
+            cd src/home-work/function-rendering
+            npm install
+      - run:
+          name: Ejecutar pruebas
+          command: |
+            cd src/home-work/function-rendering
+            npm run test --ci --runInBand --reporters=default --reporters=jest-junit
+       # Guarda los resultados para verlos en CircleCI
+      - store_test_results:
+          path: src/home-work/function-rendering/test-results/ 
+
+# Definición de un trabajo que se va a encargar de generar la documentación
+  generate-docs:
+    executor: node/default 
+    steps:
+      - checkout
+      - run:
+          name: Instalar dependencias
+          command: |
+            cd src/home-work/function-rendering
+            npm install
+      - run:
+          name: Generar documentación
+          command: |
+            cd src/home-work/function-rendering
+            npm run docs
+      - store_artifacts:
+          path: src/home-work/function-rendering/docs 
+
+
+# Definimos un flujo de trabajo
+workflows:
+  build-test-document:
+    jobs:
+      - execute-tests 
+      - generate-docs
