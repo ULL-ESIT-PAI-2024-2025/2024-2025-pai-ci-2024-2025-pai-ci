@@ -29,9 +29,3 @@ jobs:
         run: |
           mkdir -p docs/testing-and-coverage
           cp -r src/github-actions/testing-and-coverage/coverage/lcov-report/* docs/testing-and-coverage/
-      # Publicar en GitHub Pages
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          personal_token: ${{ secrets.GH_FRANCO }}
-          publish_dir: docs

@@ -34,9 +34,3 @@ jobs:
         run: |
           mkdir -p docs/code-smells
           cp -r src/github-actions/code-smells/plato-report/* docs/code-smells/
-
-      - name: Deploy GitHub Pages 🚀
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          personal_token: ${{ secrets.GH_FRANCO }}
-          publish_dir: docs
