@@ -1,3 +1,27 @@
+/**
+ * Universidad de La Laguna
+ * Escuela Superior de Ingeniería y Tecnología
+ * Grado en Ingeniería Informática
+ * Programación de Aplicaciones Interactivas
+ * Integración Continua
+ *
+ * @since 21 Apr 2025
+ * @desc Function to see the code smells
+ * @author Franco Alla
+ * @author Nailea Fayna Cruz Galván
+ * @author Raúl González Acosta
+ * @see {@link https://github.com/ULL-ESIT-PAI-2024-2025/2024-2025-pai-ci-2024-2025-pai-ci}
+ */
+
+/**
+ * 
+ * @param price Price of the order
+ * @param tax Tax applied to the order
+ * @param discount Discount applied to the order
+ * @param shipping Shipping cost of the order
+ * @param userName User name of the order
+ * @returns void
+ */
 export function processOrder(price: number, tax: number, discount: number, shipping: number, userName: string): void {
   const total = price + (price * tax) - discount + shipping;
   if (userName !== '') {

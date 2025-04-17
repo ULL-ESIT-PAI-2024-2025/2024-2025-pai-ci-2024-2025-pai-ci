@@ -13,13 +13,10 @@
  * @see {@link https://github.com/ULL-ESIT-PAI-2024-2025/2024-2025-pai-ci-2024-2025-pai-ci}
  */
 
-const X1 = 5;
-let y_temp = 10;
-
-function calc(a: number, b: number, c: number): number {
-  const resultValue = a + b + c;
-  const tmpResult = resultValue;
-  return resultValue;
+function calculateSum(firstNumber: number, secondNumber: number, thirdNumber: number): number {
+  const total = firstNumber + secondNumber + thirdNumber;
+  console.log("Total:", total);
+  return total;
 }
 
-console.log(calc(1, 2, 3));
+console.log(calculateSum(1, 2, 3));
