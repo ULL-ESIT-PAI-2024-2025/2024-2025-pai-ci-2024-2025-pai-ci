@@ -1,3 +1,6 @@
+# .github/workflows/ci-separate.yml
+name: CI & GitHub Pages Deployment
+
 on:
   push:
     branches: [master]
@@ -17,11 +20,10 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Cache node_modules
+      - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: |
-            ~/.npm
+          path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
@@ -40,11 +42,10 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Restore cached node_modules
+      - name: Restore cached dependencies
         uses: actions/cache@v3
         with:
-          path: |
-            ~/.npm
+          path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
       - name: Compile TypeScript
@@ -59,7 +60,7 @@ jobs:
           cp -r src/github-actions/code-smells/plato-report/* docs/code-smells/  # basado en code-smells.yml citeturn0file0
 
       - name: Upload Plato report artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: code-smells-report
           path: docs/code-smells
@@ -77,11 +78,10 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Restore cached node_modules
+      - name: Restore cached dependencies
         uses: actions/cache@v3
         with:
-          path: |
-            ~/.npm
+          path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
       - name: Run tests with coverage
@@ -93,29 +93,27 @@ jobs:
           cp -r src/github-actions/testing-and-coverage/coverage/lcov-report/* docs/testing-and-coverage/  # basado en testing-and-coverage.yml citeturn0file1
 
       - name: Upload coverage report artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: docs/testing-and-coverage
 
   deploy:
     name: 🚀 Deploy to GitHub Pages
-    needs:
-      - analyze-code-with-plato
-      - run-tests-and-coverage
+    needs: [analyze-code-with-plato, run-tests-and-coverage]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Download Plato report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: code-smells-report
           path: docs/code-smells
 
       - name: Download coverage report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: coverage-report
           path: docs/testing-and-coverage
