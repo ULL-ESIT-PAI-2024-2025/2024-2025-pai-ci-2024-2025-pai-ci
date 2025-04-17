@@ -25,13 +25,13 @@ jobs:
       - name: Run tests with coverage
         run: npm test -- --coverage
 
-      - name: Move coverage report to 'docs/coverage'
+      - name: Move coverage report to 'docs/testing-and-coverage'
         run: |
-          mkdir -p docs/coverage
-          cp -r coverage/lcov-report/* docs/coverage/
+          mkdir -p docs/testing-and-coverage
+          cp -r src/github-actions/testing-and-coverage/coverage/lcov-report/* docs/coverage/
 
-      - name: Deploy Coverage to GitHub Pages 🚀
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.GH_FRANCO }}
-          publish_dir: docs/coverage
+          publish_dir: docs/testing-and-coverage
