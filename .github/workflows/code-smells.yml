@@ -1,5 +1,9 @@
 name: Code Smells Analysis
 
+concurrency:
+  group: docs-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches: [master]
@@ -7,7 +11,6 @@ on:
     branches: [master]
 
 jobs:
-  # Job to analyze code smells using Plato
   analyze-code-with-plato:
     runs-on: ubuntu-latest
 
@@ -29,8 +32,15 @@ jobs:
       - name: Run Plato analysis
         run: npm run plato
 
-      - name: Move Plato report to 'docs/code-smells'
-        # Copiar el contenido del informe de Plato a la carpeta 'docs/code-smells'
+      # Copia el reporte directamente a la carpeta 'docs' del repositorio
+      - name: Move Plato report to docs/code-smells
         run: |
           mkdir -p docs/code-smells
           cp -r src/github-actions/code-smells/plato-report/* docs/code-smells/
+
+      # Despliega desde la carpeta 'docs' de la rama actual (master)
+      - name: Deploy GitHub Pages 🚀
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_FRANCO }}  # Usa el token por defecto
+          publish_dir: docs

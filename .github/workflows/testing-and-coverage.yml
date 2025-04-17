@@ -1,5 +1,9 @@
 name: Testing and Coverage
 
+concurrency:
+  group: docs-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches: [master]
@@ -25,7 +29,15 @@ jobs:
       - name: Run tests with coverage
         run: npm test -- --coverage
 
-      - name: Move coverage report to 'docs/testing-and-coverage'
+      # Copia el reporte directamente a la carpeta 'docs' del repositorio
+      - name: Move coverage report to docs/testing-and-coverage
         run: |
           mkdir -p docs/testing-and-coverage
           cp -r src/github-actions/testing-and-coverage/coverage/lcov-report/* docs/testing-and-coverage/
+
+      # Despliega desde la carpeta 'docs' de la rama actual (master)
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_FRANCO }}  # Usa el token por defecto
+          publish_dir: docs
