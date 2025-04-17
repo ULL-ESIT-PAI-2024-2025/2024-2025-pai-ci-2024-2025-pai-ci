@@ -18,17 +18,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run the index page
-        run: npm start
-
+      
       # Copia el reporte directamente a la carpeta 'docs' del repositorio
       - name: Move the page to docs/practices
         run: |
-          mkdir -p docs/practices
           cp -r src/github-actions/practices/* docs/practices/
 
       # Despliega desde la carpeta 'docs' de la rama actual (master)
