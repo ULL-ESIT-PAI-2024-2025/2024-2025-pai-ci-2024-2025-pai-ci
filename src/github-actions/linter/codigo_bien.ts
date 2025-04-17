@@ -15,7 +15,6 @@
 
 function calculateSum(firstNumber: number, secondNumber: number, thirdNumber: number): number {
   const total = firstNumber + secondNumber + thirdNumber;
-  console.log("Total:", total);
   return total;
 }
 
