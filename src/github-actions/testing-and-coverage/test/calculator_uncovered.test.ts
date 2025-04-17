@@ -1,0 +1,39 @@
+import { Calculator } from '../calculator';
+import { describe, test, expect, beforeEach } from "@jest/globals"
+
+describe('Calculator', () => {
+  let calculator: Calculator;
+
+  beforeEach(() => {
+    calculator = new Calculator();
+  });
+
+  describe('subtract()', () => {
+    test('should return the result of subtracting two numbers', () => {
+      expect(calculator.subtract(5, 3)).toBe(2);
+      expect(calculator.subtract(3, 5)).toBe(-2);
+    });
+  });
+
+  describe('multiply()', () => {
+    test('should return the product of two numbers', () => {
+      expect(calculator.multiply(3, 4)).toBe(12);
+      expect(calculator.multiply(-2, 3)).toBe(-6);
+    });
+  });
+
+  describe('divide()', () => {
+    test('should return the quotient of two numbers', () => {
+      expect(calculator.divide(6, 2)).toBe(3);
+      expect(calculator.divide(5, 2)).toBe(2.5);
+    });
+  });
+
+  describe('factorial()', () => {
+    test('should return the factorial of a number', () => {
+      expect(calculator.factorial(0)).toBe(1);
+      expect(calculator.factorial(5)).toBe(120);
+      expect(calculator.factorial(3)).toBe(6);
+    });
+  });
+});
