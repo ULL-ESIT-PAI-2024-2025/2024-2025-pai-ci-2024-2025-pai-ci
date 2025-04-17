@@ -28,7 +28,7 @@ jobs:
       - name: Move coverage report to 'docs/testing-and-coverage'
         run: |
           mkdir -p docs/testing-and-coverage
-          cp -r src/github-actions/testing-and-coverage/coverage/lcov-report/* docs/coverage/
+          cp -r src/github-actions/testing-and-coverage/coverage/lcov-report/* docs/testing-and-coverage/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
