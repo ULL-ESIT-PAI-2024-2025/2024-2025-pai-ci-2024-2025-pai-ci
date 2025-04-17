@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
-    "plato": "plato -r -d src/github-actions/code-smells/plato-report src/github-actions/code-smells"
+    "plato": "plato -r -d src/github-actions/code-smells/plato-report src/github-actions/code-smells/*.js"
   },
   "devDependencies": {
     "plato": "^1.7.0",

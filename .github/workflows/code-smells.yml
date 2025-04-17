@@ -33,7 +33,7 @@ jobs:
         # Copiar el contenido del informe de Plato a la carpeta 'docs/code-smells'
         run: |
           mkdir -p docs/code-smells
-          cp src/github-actions/code-smells/plato-report/index.html docs/code-smells/
+          cp -r src/github-actions/code-smells/plato-report/* docs/code-smells/
 
       - name: Deploy GitHub Pages 🚀
         uses: peaceiris/actions-gh-pages@v3
