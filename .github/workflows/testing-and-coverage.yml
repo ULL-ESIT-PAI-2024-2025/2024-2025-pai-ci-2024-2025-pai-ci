@@ -34,4 +34,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.GH_FRANCO }}
-          publish_dir: docs/testing-and-coverage
+          publish_dir: docs
