@@ -22,5 +22,5 @@
         "test",
         "public"
   ],
-  "include": ["src/**/*", "test/**/*"]
+  "include": ["src/github-actions/code-smells/*.ts"]
 }
