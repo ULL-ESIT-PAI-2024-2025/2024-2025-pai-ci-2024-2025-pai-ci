@@ -1,125 +1,30 @@
-# .github/workflows/ci-separate.yml
-name: CI & GitHub Pages Deployment
+# .github/workflows/deploy-pages.yml
+name: Deploy GitHub Pages
 
 on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+  workflow_run:
+    workflows:
+      - Testing and Coverage
+      - Code Smells Analysis
+    types:
+      - completed
 
 jobs:
-  dependencies:
-    name: 🔧 Install Dependencies
+  deploy-pages:
+    # Este job **no** tiene needs, así que cumple la regla
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Configure Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          node-version: '18'
-
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install dependencies
-        run: npm install
-
-  analyze-code-with-plato:
-    name: 🔍 Code Smells Analysis
-    needs: dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Restore cached dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Compile TypeScript
-        run: npm run build  # basado en code-smells.yml citeturn0file0
-
-      - name: Run Plato analysis
-        run: npm run plato  # basado en code-smells.yml citeturn0file0
-
-      - name: Move Plato report to 'docs/code-smells'
-        run: |
-          mkdir -p docs/code-smells
-          cp -r src/github-actions/code-smells/plato-report/* docs/code-smells/  # basado en code-smells.yml citeturn0file0
-
-      - name: Upload Plato report artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: code-smells-report
-          path: docs/code-smells
-
-  run-tests-and-coverage:
-    name: ✔️ Testing & Coverage
-    needs: dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Restore cached dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Run tests with coverage
-        run: npm test -- --coverage  # basado en testing-and-coverage.yml citeturn0file1
-
-      - name: Move coverage report to 'docs/testing-and-coverage'
-        run: |
-          mkdir -p docs/testing-and-coverage
-          cp -r src/github-actions/testing-and-coverage/coverage/lcov-report/* docs/testing-and-coverage/  # basado en testing-and-coverage.yml citeturn0file1
-
-      - name: Upload coverage report artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: docs/testing-and-coverage
-
-  deploy:
-    name: 🚀 Deploy to GitHub Pages
-    needs: [analyze-code-with-plato, run-tests-and-coverage]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Download Plato report
-        uses: actions/download-artifact@v4
-        with:
-          name: code-smells-report
-          path: docs/code-smells
-
-      - name: Download coverage report
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage-report
-          path: docs/testing-and-coverage
+          path: docs
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          personal_token: ${{ secrets.GH_FRANCO }}
-          publish_dir: docs
+        uses: actions/deploy-pages@v1
