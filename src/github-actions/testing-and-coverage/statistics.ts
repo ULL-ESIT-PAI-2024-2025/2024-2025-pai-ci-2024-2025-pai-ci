@@ -6,7 +6,7 @@
  * Integración Continua
  *
  * @since 21 Apr 2025
- * @desc Simple statistics class to study testing and coverage with GitHub Actions
+ * @desc Simple statistics class to study testing and coverage with GitHub Actions.
  * @author Franco Alla
  * @author Nailea Fayna Cruz Galván
  * @author Raúl González Acosta
