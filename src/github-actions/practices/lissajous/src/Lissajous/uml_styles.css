@@ -1,0 +1,23 @@
+ul {
+  list-style: none; /* Elimina los puntos de la lista */
+  padding: 0;
+  margin: 0;
+  display: flex; /* Coloca los botones en línea */
+  gap: 10px; /* Espaciado entre botones */
+  justify-content: center; /* Centra los botones horizontalmente */
+}
+
+ul li a {
+  padding: 10px 20px; /* Aumenta el tamaño del botón */
+  font-size: 14px; /* Aumenta el tamaño del texto */
+  cursor: pointer;
+  text-decoration: none; /* Elimina el subrayado de los enlaces */
+  display: inline-block; /* Asegura que los botones estén en línea */
+  text-align: center; /* Centra el texto dentro del botón */
+  border: none;
+  background-color: black; /* Color de fondo del botón */
+  color: white; /* Color del texto */
+  border-radius: 3px; /* Bordes redondeados */
+  transition: background-color 0.3s ease;
+  width: auto; /* Ajusta automáticamente el ancho del botón */
+}
