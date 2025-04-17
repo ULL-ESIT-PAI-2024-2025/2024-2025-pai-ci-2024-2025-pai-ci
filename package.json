@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
-    "plato": "plato -r -d src/github-actions/code-smells/plato-report src/github-actions/code-smells/*.js"
+    "plato": "plato -r -d src/github-actions/code-smells/plato-report src/github-actions/code-smells/*.js",
+    "test": "jest --rootDir=src/github-actions/testing-and-coverage",
+    "coverage": "jest --coverage --rootDir=src/github-actions/testing-and-coverage"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",

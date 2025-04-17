@@ -1,0 +1,37 @@
+name: Testing and Coverage
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  run-tests-and-coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests with coverage
+        run: npm test -- --coverage
+
+      - name: Move coverage report to 'docs/coverage'
+        run: |
+          mkdir -p docs/coverage
+          cp -r coverage/lcov-report/* docs/coverage/
+
+      - name: Deploy Coverage to GitHub Pages 🚀
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GH_FRANCO }}
+          publish_dir: docs/coverage
