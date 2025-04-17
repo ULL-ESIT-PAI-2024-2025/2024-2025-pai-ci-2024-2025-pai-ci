@@ -1,30 +1,58 @@
-# .github/workflows/deploy-pages.yml
-name: Deploy GitHub Pages
+name: CI & Deploy Pages
 
 on:
-  workflow_run:
-    workflows:
-      - Testing and Coverage
-      - Code Smells Analysis
-    types:
-      - completed
+  push:
+    branches: [ master ]
 
 jobs:
-  deploy-pages:
-    # Este job **no** tiene needs, así que cumple la regla
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  run-tests-and-coverage:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - run: npm install
+      - run: npm test -- --coverage
+      - run: |
+          mkdir -p docs/testing-and-coverage
+          cp -r src/github-actions/testing-and-coverage/coverage/lcov-report/* docs/testing-and-coverage/
       - name: Configure Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
+      - name: Upload Coverage Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/testing-and-coverage
 
-      - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v1
+  analyze-code-with-plato:
+    needs: run-tests-and-coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - run: npm install && npm run build && npm run plato
+      - run: |
+          mkdir -p docs/code-smells
+          cp -r src/github-actions/code-smells/plato-report/* docs/code-smells
+      - name: Upload Code Smells Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/code-smells
+
+  deploy-pages:
+    needs:
+      - run-tests-and-coverage
+      - analyze-code-with-plato
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload All Pages Artifacts
+        uses: actions/upload-pages-artifact@v3
         with:
           path: docs
-
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
