@@ -22,12 +22,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Guarda node_modules como artefacto para otros jobs
-      - name: Save node_modules
-        uses: actions/upload-artifact@v4
-        with:
-          name: node_modules
-          path: node_modules
 
   test:
     runs-on: ubuntu-latest
@@ -43,16 +37,9 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Download node_modules
-        uses: actions/download-artifact@v4
-        with:
-          name: node_modules
-          path: node_modules
-      
-      # Añade node_modules/.bin al PATH
-      # guardas node_modules como artefacto y luego lo descargas, esos symlinks no siempre sobreviven al proceso
-      - name: Fix bin path
-        run: echo "./node_modules/.bin" >> $GITHUB_PATH
+      - name: Install dependencies
+        run: npm install
+  
 
       # Ejecuta los tests
       - name: Run tests
