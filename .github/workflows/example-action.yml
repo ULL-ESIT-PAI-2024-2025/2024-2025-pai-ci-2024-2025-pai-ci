@@ -24,7 +24,7 @@ jobs:
 
       # Guarda node_modules como artefacto para otros jobs
       - name: Save node_modules
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: node_modules
           path: ../../src/example-action/node_modules
