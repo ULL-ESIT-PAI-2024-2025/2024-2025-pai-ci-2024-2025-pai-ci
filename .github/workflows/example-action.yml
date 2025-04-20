@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src/github-actions/example-action
 
     steps:
       - name: Checkout repo
@@ -25,7 +28,9 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    needs: build
+    defaults:
+      run:
+        working-directory: ./src/github-actions/example-action
 
     steps:
       - name: Checkout repo
@@ -43,4 +48,4 @@ jobs:
 
       # Ejecuta los tests
       - name: Run tests
-        run: npm run test-figures
+        run: npm run test
