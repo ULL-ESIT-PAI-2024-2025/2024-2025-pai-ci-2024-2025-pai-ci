@@ -77,3 +77,26 @@ jobs:
       # Ejecuta los tests
       - name: Generate documentation
         run: npm run docs
+
+  deploy:
+    needs: [build, test, docs]
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Move the page to docs/example-action
+        run: |
+          mkdir -p docs/example-action
+          cp -r src/github-actions/example-action/* docs/example-action/
+
+      
+      # Despliega desde la carpeta 'docs' de la rama actual (master)
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_FRANCO }}  # Usa el token por defecto
+          publish_dir: docs
+          keep_files: true
