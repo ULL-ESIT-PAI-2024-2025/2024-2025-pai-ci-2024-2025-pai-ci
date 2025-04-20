@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
-    "plato": "plato -r -d src/github-actions/code-smells/plato-report src/github-actions/code-smells/*.js",
+    "plato": "plato -r -d src/github-actions/code-smells/plato-report src/github-actions/code-smells/**/*.js",
     "lint": "npx eslint src/github-actions/linter/codigo_mal.ts",
     "test": "jest --rootDir=src/github-actions/testing-and-coverage",
     "test-figures": "jest --rootDir=src/github-actions/example-action/",
