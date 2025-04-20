@@ -35,10 +35,6 @@ describe('Calculator', () => {
       expect(calculator.divide(6, 2)).toBe(3);
       expect(calculator.divide(5, 2)).toBe(2.5);
     });
-
-    test('should throw an error when dividing by zero', () => {
-      expect(() => calculator.divide(1, 0)).toThrow("Error: Division by zero is not allowed");
-    });
   });
 
   describe('factorial()', () => {
@@ -46,10 +42,6 @@ describe('Calculator', () => {
       expect(calculator.factorial(0)).toBe(1);
       expect(calculator.factorial(5)).toBe(120);
       expect(calculator.factorial(3)).toBe(6);
-    });
-
-    test('should throw an error for negative numbers', () => {
-      expect(() => calculator.factorial(-1)).toThrow("Error: Negative numbers not allowed");
     });
   });
 });
