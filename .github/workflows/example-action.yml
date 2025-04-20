@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./src/example-action  # Trabaja en la subcarpeta
+        working-directory: src/example-action  # Trabaja en la subcarpeta
 
     steps:
       - name: Checkout repo
