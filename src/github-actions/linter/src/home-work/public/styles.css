@@ -1,0 +1,43 @@
+/* Estilos generales heredados de Bulma se mantienen via CDN */
+
+/* Estilos personalizados */
+.card-image {
+  width: 100px;
+  margin: 0 5px;
+}
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hand-container {
+  min-height: 200px;
+  padding: 20px;
+}
+
+.hand-rank {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+/* Header y footer personalizados */
+.ull-header {
+  background-color: rgb(131, 17, 188);
+  color: white;
+}
+
+.ull-footer {
+  background-color: rgb(131, 17, 188);
+  color: white;
+}
+
+/* Ajustes específicos para elementos de Bulma */
+.notification.is-primary {
+  margin: 15px 0;
+}
+
+.button.is-danger {
+  margin-top: 20px;
+}
