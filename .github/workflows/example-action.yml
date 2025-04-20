@@ -51,4 +51,4 @@ jobs:
 
       # Ejecuta los tests
       - name: Run tests
-        run: npm test-figures
+        run: npm run test-figures
