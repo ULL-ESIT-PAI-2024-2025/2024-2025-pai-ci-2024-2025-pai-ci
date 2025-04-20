@@ -19,6 +19,7 @@
   "author": "F. de Sande <fsande@ull.es>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/preset-typescript": "^7.27.0",
     "@exercism/babel-preset-typescript": "^0.1.0",
     "@exercism/eslint-config-typescript": "^0.4.1",
     "@types/jest": "^29.5.14",
